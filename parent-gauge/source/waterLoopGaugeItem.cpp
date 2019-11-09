@@ -9,7 +9,7 @@ waterLoopGaugeItem::waterLoopGaugeItem()
 
 waterLoopGaugeItem::waterLoopGaugeItem(QcThemeItem &theme, qreal size, QString type, QString label,QString units ,qreal precision, qreal maxValue, qreal warningValueHigh, qreal warningValueMed, qreal stepSize){
     mainGauge = new QcGaugeWidget;
-    mainGauge->setMaximumSize(size,size);
+    //mainGauge->setMaximumSize(size,size);
     mainGauge->setMinimumSize(size,size);
     this->maxValue = maxValue;
     this->stepSize = stepSize;
