@@ -37,11 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     QcThemeItem mainTheme = QcThemeItem("D:/Coding/Workspaces/WaterLoop/qT/parent-gauge/Comp5-Dashboard/parent-gauge/source","waterLoopThemeRETRO.txt");
-    QcThemeItem newTheme = QcThemeItem("D:/Coding/Workspaces/WaterLoop/qT/parent-gauge/Comp5-Dashboard/parent-gauge/source","waterLoopThemeNEW.txt");
-    speedoMeter = new waterLoopGaugeItem(mainTheme, 250,"Speedometer","SPEED","Km/h",1, 400,300,200,50);
-    voltMeter = new waterLoopGaugeItem(newTheme, 250, "Voltmeter", "", "V",2 ,1, 0.5, 0.25, 0.1);
+    //Change values, starting value, max value, end of yellow value, end of green value, increment value
+    speedoMeter = new waterLoopGaugeItem(mainTheme, 250,"Tank Pressure Monitor","PRESSURE","Psi",1, 400,300,200,50);
     ui->verticalLayout->addWidget(speedoMeter->getGauge());
-    ui->verticalLayout->addWidget(voltMeter->getGauge());
 }
 
 MainWindow::~MainWindow()
@@ -52,5 +50,4 @@ MainWindow::~MainWindow()
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     speedoMeter->setCurrentValue(value);
-    voltMeter->setCurrentValue(value);
 }
