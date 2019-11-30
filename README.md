@@ -1,2 +1,1 @@
-# Comp5-Dashboard
-Qt dashboard for Waterloop in Comp5
+# Waterloop-3D-Simulation
