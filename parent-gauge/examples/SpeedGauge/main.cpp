@@ -26,13 +26,16 @@
 ****************************************************************************/
 
 #include "mainwindow.h"
+#include <QObject>
 #include <QApplication>
+
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_Use96Dpi);
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindow w(nullptr, "rpi.uwaterloo.ca",9999);
+
     w.show();
 
     return a.exec();

@@ -9,5 +9,6 @@
         <file>fonts/PLANK___.TTF</file>
         <file>fonts/Potra.ttf</file>
         <file>fonts/Quantum.otf</file>
+        <file>styles/waterLoopThemeMID.txt</file>
     </qresource>
 </RCC>

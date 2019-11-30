@@ -31,17 +31,46 @@
 #include <QApplication>
 
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, QString host, qint16 port) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+
     ui->setupUi(this);
     QcThemeItem mainTheme = QcThemeItem(":/styles/waterLoopThemeRETRO.txt");
     QcThemeItem newTheme = QcThemeItem(":/styles/waterLoopThemeNEW.txt");
-    speedoMeter = new waterLoopGaugeItem(mainTheme, 250,"Speedometer","SPEED","Km/h",1, 400,300,200,50);
-    voltMeter = new waterLoopGaugeItem(newTheme, 250, "Voltmeter", "", "V",2 ,1, 0.5, 0.25, 0.1);
-    ui->verticalLayout->addWidget(speedoMeter->getGauge());
-    ui->verticalLayout->addWidget(voltMeter->getGauge());
+    QcThemeItem midTheme = QcThemeItem(":/styles/waterLoopThemeMID.txt");
+    qreal m1 = 240;
+    qreal m2 = 260;
+
+
+
+    //speedoMeter = new waterLoopGaugeItem(mainTheme, 250,"Speedometer","SPEED","Km/h",1, 400,300,200,50);
+    baroMeter = new waterLoopGaugeItem(midTheme, 250, "Current", "LV CURR." ,"A", 1, 0, 60, 50, 0, 5);
+    //voltMeter = new waterLoopGaugeItem(newTheme, 250, "Voltmeter", "", "V",2 ,1, 0.5, 0.25, 0.1);
+    //ui->verticalLayout->addWidget(speedoMeter->getGauge());
+    ui->verticalLayout->addWidget(baroMeter->getGauge());
+
+    tcpsocket = new QTcpSocket(this);
+    connect( tcpsocket, SIGNAL( readyRead()), this, SLOT(readTCPData()));
+    //connect( tcpsocket, SIGNAL( disconnected() ), this , SLOT(disconnectTCP()));
+    tcpsocket->connectToHost(host, port);
+    tcpaddress = host;
+    if (tcpsocket->waitForConnected()) {
+        qDebug("Connected to Host");
+    }
+
+
+}
+
+void MainWindow::readTCPData() {
+    stream = tcpsocket->readAll();
+    if (!stream.isNull()){
+        qDebug()<< stream;
+    }
+    data = QJsonDocument::fromJson(stream);
+
 }
 
 MainWindow::~MainWindow()
@@ -49,8 +78,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::readUpdate(QJsonDocument &d){
+
+    qDebug() << d.toJson();
+}
+
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-    speedoMeter->setCurrentValue(value);
-    voltMeter->setCurrentValue(value);
+    //speedoMeter->setCurrentValue(value);
+    //voltMeter->setCurrentValue(value);
+    baroMeter->setCurrentValue(value);
 }
